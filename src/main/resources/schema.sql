@@ -1,3 +1,10 @@
-CREATE TABLE customer (
-    id 
-)
+CREATE TABLE customers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(255),
+    rank VARCHAR(20)    NOT NULL,
+    status VARCHAR(20)    NOT NULL,
+    memo VARCHAR(255),
+    active BOOLEAN NOT NULL DEFAULT TRUE
+);
