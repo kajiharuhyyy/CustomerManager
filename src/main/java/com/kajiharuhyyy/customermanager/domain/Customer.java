@@ -1,4 +1,4 @@
-package com.kajiharuhyyy.domain;
+package com.kajiharuhyyy.customermanager.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.kajiharuhyyy.domain;
+package com.kajiharuhyyy.customermanager.domain;
 
 public enum CustomerStatus {
     NEW,
