@@ -3,6 +3,7 @@ package com.kajiharuhyyy.customermanager.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kajiharuhyyy.customermanager.domain.Customer;
+import com.kajiharuhyyy.customermanager.domain.CustomerRank;
 import com.kajiharuhyyy.customermanager.domain.CustomerStatus;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     List<Customer> findByPhone(String phone);
 
-    List<Customer> findByRank(String rank);
+    List<Customer> findByRank(CustomerRank rank);
 
     List<Customer> findByStatus(CustomerStatus status);
 

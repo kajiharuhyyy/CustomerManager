@@ -36,8 +36,9 @@ public class Customer {
     @Column(length = 20)
     private String phone;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String rank;
+    private CustomerRank rank;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

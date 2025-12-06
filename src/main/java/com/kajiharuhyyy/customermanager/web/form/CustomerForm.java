@@ -1,5 +1,6 @@
 package com.kajiharuhyyy.customermanager.web.form;
 
+import com.kajiharuhyyy.customermanager.domain.CustomerRank;
 import com.kajiharuhyyy.customermanager.domain.CustomerStatus;
 
 import jakarta.validation.constraints.Email;
@@ -23,7 +24,7 @@ public class CustomerForm {
    private String phone;
 
    @NotBlank(message = "ランクを選択してください")
-   private String rank;
+   private CustomerRank rank;
 
    @NotNull(message = "状態を選択してください")
    private CustomerStatus status;
