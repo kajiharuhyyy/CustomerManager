@@ -33,14 +33,20 @@ public class CustomerController {
         CustomerForm form = new CustomerForm();
         form.setActive(true);
         model.addAttribute("customerForm", form);
+        model.addAttribute("ranks", CustomerRank.values());
+        model.addAttribute("statuses", CustomerStatus.values());
         return "customers/new";
     }
 
     @PostMapping("/customers")
-    public String createCustomers(@Valid @ModelAttribute CustomerForm form,
-        BindingResult bindingResult) {
+    public String createCustomers(
+            @Valid @ModelAttribute CustomerForm form,
+            BindingResult bindingResult,
+            Model model) {
 
             if (bindingResult.hasErrors()) {
+                model.addAttribute("ranks", CustomerRank.values());
+                model.addAttribute("status", CustomerStatus.values());
                 return "customers/new";
             }
 

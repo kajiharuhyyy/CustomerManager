@@ -13,6 +13,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">顧客一覧（管理画面）</h1>
+        <a class="btn btn-primary" th:href="@{/customers/new}">＋ 新規顧客</a>
     </div>
 
     <div class="card shadow-sm">
@@ -24,39 +25,58 @@
                     <th>名前</th>
                     <th>メールアドレス</th>
                     <th>電話番号</th>
-                    <th></th>
+                    <th>ランク</th>
                     <th>状態</th>
+                    <th>有効 / 無効</th>
+                    <th>備考</th>
                     <th class="text-center">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(members)}">
-                    <td colspan="5" class="text-center text-muted py-4">
-                        メンバーが登録されていません。
+                <tr th:if="${#lists.isEmpty(customers)}">
+                    <td colspan="9" class="text-center text-muted py-4">
+                        顧客が登録されていません。
                     </td>
                 </tr>
 
-                <tr th:each="m : ${members}">
-                    <td th:text="${m.id}"></td>
-                    <td th:text="${m.name}"></td>
-                    <td th:text="${m.email}"></td>
+                <tr th:each="c : ${customers}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.name}"></td>
+                    <td th:text="${c.email}"></td>
+                    <td th:text="${c.phone}"></td>
+                    <td th:text="${c.rank}"></td>
+
+                    <!-- 状態（enum） -->
+                    <td>
+                        <span class="badge rounded-pill bg-secondary"
+                              th:text="${c.status}">
+                        </span>
+                    </td>
+
+                    <!-- 有効 / 無効 -->
                     <td>
                         <span class="badge rounded-pill"
-                              th:classappend="${m.active} ? ' bg-success' : ' bg-secondary'"
-                              th:text="${m.active} ? '有効' : '無効'"></span>
+                              th:classappend="${c.active} ? ' bg-success' : ' bg-secondary'"
+                              th:text="${c.active} ? '有効' : '無効'">
+                        </span>
                     </td>
+
+                    <!-- 備考 -->
+                    <td th:text="${c.memo} ?: '-'"></td>
+
+                    <!-- 操作 -->
                     <td class="text-center">
                         <div class="btn-group btn-group-sm">
                             <a class="btn btn-outline-primary"
-                               th:href="@{/members/{id}/edit(id=${m.id})}">
+                               th:href="@{/customers/{id}/edit(id=${c.id})}">
                                 編集
                             </a>
-                            <form th:action="@{/members/{id}/delete(id=${m.id})}"
+                            <form th:action="@{/customers/{id}/delete(id=${c.id})}"
                                   method="post"
                                   style="display:inline;">
                                 <button type="submit"
                                         class="btn btn-outline-danger"
-                                        onclick="return confirm('このメンバーを削除してよろしいですか？');">
+                                        onclick="return confirm('この顧客を削除してよろしいですか？');">
                                     削除
                                 </button>
                             </form>
