@@ -38,10 +38,8 @@ public class CustomerController {
 
         // 名前　（部分一致）
         if (keyword != null && !keyword.isBlank()) {
-            customers = customers.stream()
-                .filter(c -> c.getName() != null && c.getName().contains(keyword))
-                .toList();
-        } 
+            customers = customerRepository.findByNameContainingIgnoreCase(keyword);
+        }
 
         // 状態
         if (status != null) {
@@ -57,7 +55,7 @@ public class CustomerController {
             .toList(); 
         }
 
-        model.addAttribute("customers", customerRepository.findAll());
+        model.addAttribute("customers", customers);
         model.addAttribute("statuses", CustomerStatus.values());
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedStatus", status);
