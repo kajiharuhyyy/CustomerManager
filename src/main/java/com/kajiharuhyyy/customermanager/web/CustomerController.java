@@ -1,5 +1,7 @@
 package com.kajiharuhyyy.customermanager.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kajiharuhyyy.customermanager.domain.Customer;
 import com.kajiharuhyyy.customermanager.domain.CustomerRank;
@@ -24,8 +27,41 @@ public class CustomerController {
     private final CustomerRepository customerRepository;
 
     @GetMapping("/customers")
-    public String listCustomers(Model model) {
+    public String listCustomers(
+        @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) CustomerStatus status,
+        @RequestParam(required = false) Boolean active,
+        Model model) {
+        
+        // 全件取得
+        List<Customer> customers = customerRepository.findAll(); 
+
+        // 名前　（部分一致）
+        if (keyword != null && !keyword.isBlank()) {
+            customers = customers.stream()
+                .filter(c -> c.getName() != null && c.getName().contains(keyword))
+                .toList();
+        } 
+
+        // 状態
+        if (status != null) {
+            customers = customers.stream()
+                .filter(c -> c.getStatus() == status)
+                .toList();
+        }
+
+        // 有効/無効
+        if (active != null) {
+            customers = customers.stream()
+            .filter(c -> c.isActive() == active)
+            .toList(); 
+        }
+
         model.addAttribute("customers", customerRepository.findAll());
+        model.addAttribute("statuses", CustomerStatus.values());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedStatus", status);
+        model.addAttribute("selectedActive", active);
         return "customers/list";
     }
 

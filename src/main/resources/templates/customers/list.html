@@ -16,6 +16,48 @@
         <a class="btn btn-primary" th:href="@{/customers/new}">＋ 新規顧客</a>
     </div>
 
+    <form th:action="@{/customers}" method="get" class="row g-2 mb-3">
+
+        <div class="col-md-4">
+            <input type="text" name="keyword" class="form-control" 
+            placeholder="名前で検索(例：山田)" th:value="${keyword}">
+        </div>
+
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">状態：すべて</option>
+                <option th:each="s : ${statuses}"
+                        th:value="${s}"
+                        th:text="${s}"
+                        th:selected="${selectedStatus != null and selectedStatus == s}">
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select name="active" class="form-select">
+                <option value="">有効/無効：すべて</option>
+                <option value="true"
+                        th:selected="${selectedActive != null and selectedActive == true}">
+                    有効のみ
+                </option>
+                <option value="false"
+                        th:selected="${selectedActive != null and selectedActive == false}">
+                    無効のみ
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary flex-fill">
+                絞り込む
+            </button>
+            <a th:href="@{/customers}" class="btn btn-outline-secondary flex-fill">
+                クリア
+            </a>
+        </div>
+    </form>
+
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
