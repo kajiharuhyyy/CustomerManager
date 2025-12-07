@@ -23,7 +23,7 @@ public class CustomerForm {
    @NotBlank(message = "電話番号は必須項目です")
    private String phone;
 
-   @NotBlank(message = "ランクを選択してください")
+   @NotNull(message = "ランクを選択してください")
    private CustomerRank rank;
 
    @NotNull(message = "状態を選択してください")
