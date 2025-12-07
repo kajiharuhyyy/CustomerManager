@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kajiharuhyyy.customermanager.domain.Customer;
@@ -46,7 +47,7 @@ public class CustomerController {
 
             if (bindingResult.hasErrors()) {
                 model.addAttribute("ranks", CustomerRank.values());
-                model.addAttribute("status", CustomerStatus.values());
+                model.addAttribute("statuses", CustomerStatus.values());
                 return "customers/new";
             }
 
@@ -64,5 +65,58 @@ public class CustomerController {
         return "redirect:/customers";	
         }
 
+    @GetMapping("/customers/{id}/edit")
+    public String editCustomerForm(@PathVariable Long id,
+            Model model) {
+        Customer customer = customerRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
+
+        CustomerForm form = new CustomerForm();
+        form.setId(customer.getId());
+        form.setName(customer.getName());
+        form.setEmail(customer.getEmail());
+        form.setPhone(customer.getPhone());
+        form.setRank(customer.getRank());
+        form.setStatus(customer.getStatus());
+        form.setMemo(customer.getMemo());
+        form.setActive(customer.isActive());
+
+        model.addAttribute("customerForm", form);
+        model.addAttribute("ranks", CustomerRank.values());
+        model.addAttribute("statuses", CustomerStatus.values());
+        return "customers/edit";
+    }
+
+    @PostMapping("/customers/{id}/edit")
+    public String updateCustomer(@PathVariable Long id, 
+            @Valid @ModelAttribute CustomerForm form, 
+            BindingResult bindingResult, 
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ranks", CustomerRank.values());
+            model.addAttribute("statuses", CustomerStatus.values());
+            return "customers/edit";
+        }
+
+        Customer customer = customerRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID" + id));
+
+        customer.setName(form.getName());
+        customer.setEmail(form.getEmail());
+        customer.setPhone(form.getPhone());
+        customer.setRank(form.getRank());
+        customer.setStatus(form.getStatus());
+        customer.setMemo(form.getMemo());
+        customer.setActive(form.getActive());
+
+        customerRepository.save(customer);
+        return "redirect:/customers"; 
+    }
+
+    @PostMapping("/customers/{id}/delete")
+    public String deleteCustomer(@PathVariable Long id) {
+        customerRepository.deleteById(id);
+        return "redirect:/customers"; 
+    }
 
 }
