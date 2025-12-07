@@ -22,7 +22,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <form th:action="@{/customers/{id}/edit(id=${memberForm.id})}"
+            <form th:action="@{/customers/{id}/edit(id=${customerForm.id})}"
                   th:object="${customerForm}"
                   method="post">
 
@@ -61,7 +61,10 @@
                             th:text="${r}">
                     </option>
                     </select>
-                </div> 
+                    <div class="text-danger small"
+                        th:if="${#fields.hasErrors('rank')}"
+                        th:errors="*{rank}"></div>
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">状態</label>
