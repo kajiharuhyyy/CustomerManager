@@ -58,7 +58,7 @@ public class CustomerController {
         model.addAttribute("customers", customers);
         model.addAttribute("statuses", CustomerStatus.values());
         model.addAttribute("keyword", keyword);
-        model.addAttribute("selectedStatus", status);
+        model.addAttribute( "selectedStatus", status);
         model.addAttribute("selectedActive", active);
         return "customers/list";
     }
