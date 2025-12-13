@@ -57,7 +57,7 @@ class CustomerRepositoryTest {
 
         @Test
         @DisplayName("active=trueの顧客だけ取得できること")
-        void findByActive_true_onry() {
+        void findByActive_true_only() {
 
                 Customer activeUser = Customer.builder()
                         .name("アクティブ太郎")
