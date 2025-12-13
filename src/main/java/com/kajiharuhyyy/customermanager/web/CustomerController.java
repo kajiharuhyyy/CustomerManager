@@ -1,5 +1,7 @@
 package com.kajiharuhyyy.customermanager.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +35,7 @@ public class CustomerController {
             Model model) {
         
         // 全件取得
-        var customers = customerService.search(keyword, status, active);
+        List<Customer> customers = customerService.search(keyword, status, active);
 
         model.addAttribute("customers", customers);
         model.addAttribute("statuses", CustomerStatus.values());
@@ -42,6 +44,18 @@ public class CustomerController {
         model.addAttribute("selectedActive", active);
         return "customers/list";
     }
+
+    @GetMapping("/customers/new")
+    public String newCustomerForm(Model model) {
+        CustomerForm form = new CustomerForm();
+        form.setActive(true);
+
+        model.addAttribute("customerForm", form);
+        model.addAttribute("ranks", CustomerRank.values());
+        model.addAttribute("statuses", CustomerStatus.values());
+        return "customers/new";
+    }
+    
 
     @PostMapping("/customers")
     public String createCustomers(
